@@ -4,8 +4,10 @@ export type ApiError = {
   status?: number
 }
 
+const API_BASE = 'https://hrmanagement-ayto.onrender.com'
+
 async function requestJson(path: string, options: RequestInit = {}) {
-  const res = await fetch(path, {
+  const res = await fetch(`${API_BASE}${path}`, {
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
@@ -104,7 +106,7 @@ export const api = {
     const formData = new FormData()
     if (file) formData.append('file', file)
     if (notes) formData.append('notes', notes)
-    const res = await fetch(`/api/employee/tasks/${id}/submit`, {
+    const res = await fetch(`${API_BASE}/api/employee/tasks/${id}/submit`, {
       method: 'POST',
       body: formData,
       credentials: 'include'
@@ -120,7 +122,7 @@ export const api = {
   uploadDocument: async (file: File) => {
     const formData = new FormData()
     formData.append('file', file)
-    const res = await fetch('/api/hr/upload', {
+    const res = await fetch(`${API_BASE}/api/hr/upload`, {
       method: 'POST',
       body: formData,
       credentials: 'include'
