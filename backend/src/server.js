@@ -98,7 +98,14 @@ async function main() {
 
   app.use(
     cors({
-      origin: clientOrigin,
+      origin: function (origin, callback) {
+        // Allow localhost for dev, any vercel app, or the explicit CLIENT_ORIGIN
+        if (!origin || origin.startsWith('http://localhost') || origin.includes('vercel.app') || origin === clientOrigin) {
+          callback(null, true)
+        } else {
+          callback(new Error('Not allowed by CORS'))
+        }
+      },
       credentials: true
     })
   )
