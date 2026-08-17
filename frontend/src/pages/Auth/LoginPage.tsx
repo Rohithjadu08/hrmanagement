@@ -79,6 +79,7 @@ export default function LoginPage() {
               value={form.email}
               onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
               type="email"
+              autoComplete="off"
               required
             />
           </label>
@@ -90,6 +91,7 @@ export default function LoginPage() {
               value={form.password}
               onChange={(e) => setForm((p) => ({ ...p, password: e.target.value }))}
               type="password"
+              autoComplete="new-password"
               required
               minLength={1}
             />
