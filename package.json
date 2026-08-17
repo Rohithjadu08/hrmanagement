@@ -1,0 +1,9 @@
+{
+  "name": "hrchatbotfinal",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start:combined": "node ./scripts/start-combined.js"
+  }
+}
+
