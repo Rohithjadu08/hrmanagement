@@ -25,8 +25,8 @@ function setAuthCookie(res, accessToken) {
   // Supabase issues short-lived access tokens; cookie keeps it for backend verification.
   res.cookie('token', accessToken, {
     httpOnly: true,
-    sameSite: 'lax',
-    secure: false, // set true behind HTTPS
+    sameSite: 'none',
+    secure: true, // required when frontend and backend are on different domains
     path: '/',
     maxAge: 1000 * 60 * 60 * 8
   })
