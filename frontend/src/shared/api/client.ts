@@ -4,7 +4,7 @@ export type ApiError = {
   status?: number
 }
 
-export const API_BASE = import.meta.env.DEV ? 'http://localhost:5000' : 'https://hrmanagement-ayto.onrender.com'
+export const API_BASE = import.meta.env.DEV ? 'http://localhost:4000' : 'https://hrmanagement-ayto.onrender.com'
 
 async function requestJson(path: string, options: RequestInit = {}) {
   const res = await fetch(`${API_BASE}${path}`, {
