@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { api } from '../../shared/api/client'
+import { api, API_BASE } from '../../shared/api/client'
 
 export default function SignupPage() {
   const nav = useNavigate()
@@ -36,7 +36,7 @@ export default function SignupPage() {
         email: form.employeeId // Use work email (employeeId) as the auth email
       }
 
-      const res = await fetch('/api/auth/signup', {
+      const res = await fetch(`${API_BASE}/api/auth/signup`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -56,8 +56,15 @@ export default function SignupPage() {
       })() : null
 
       if (!res.ok) {
-        const msg = (data && typeof data === 'object' && 'error' in data && (data as any).error) || res.statusText
-        throw new Error(msg || 'SIGNUP_FAILED')
+        let msg = (data && typeof data === 'object' && 'error' in data && (data as any).error) || res.statusText
+        
+        // If msg is still empty, it's likely a proxy error (e.g., backend is not running and Vite returns HTML)
+        if (!msg) {
+          msg = typeof data === 'string' && data.includes('<html') 
+            ? 'Backend server is unreachable. Please ensure the backend is running.' 
+            : 'SIGNUP_FAILED'
+        }
+        throw new Error(msg)
       }
 
       nav('/pending-confirmation', { replace: true, state: { email: form.email } })

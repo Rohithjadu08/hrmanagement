@@ -49,7 +49,11 @@ export default function LoginPage() {
       // default
       nav('/')
     } catch (err: any) {
-      setStatus(err?.error || 'LOGIN_FAILED')
+      if (err?.status === 504 || err?.message?.includes('504')) {
+        setStatus('Backend server is unreachable. Please ensure the backend is running.')
+      } else {
+        setStatus(err?.error || 'LOGIN_FAILED')
+      }
     }
   }
 

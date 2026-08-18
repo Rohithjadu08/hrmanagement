@@ -4,7 +4,7 @@ export type ApiError = {
   status?: number
 }
 
-const API_BASE = 'https://hrmanagement-ayto.onrender.com'
+export const API_BASE = 'https://hrmanagement-ayto.onrender.com'
 
 async function requestJson(path: string, options: RequestInit = {}) {
   const res = await fetch(`${API_BASE}${path}`, {
