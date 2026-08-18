@@ -7,12 +7,18 @@ import EmployeeDashboardPage from './pages/Employee/EmployeeDashboardPage'
 import EmployeeTasksPage from './pages/Employee/EmployeeTasksPage'
 import EmployeeAiAssistantPage from './pages/Employee/EmployeeAiAssistantPage'
 import EmployeeDeclinedPage from './pages/Employee/EmployeeDeclinedPage'
+import EmployeeAttendancePage from './pages/Employee/EmployeeAttendancePage'
+import EmployeeLeavePage from './pages/Employee/EmployeeLeavePage'
+import EmployeeChatHistoryPage from './pages/Employee/EmployeeChatHistoryPage'
 import HrDashboard from './pages/Hr/HrDashboard'
 import EmployeesPage from './pages/Hr/EmployeesPage'
 import TasksPage from './pages/Hr/TasksPage'
 import AiAssistantPage from './pages/Hr/AiAssistantPage'
 import KnowledgeBasePage from './pages/Hr/KnowledgeBasePage'
 import NotificationsPage from './pages/Hr/NotificationsPage'
+import HrAttendancePage from './pages/Hr/HrAttendancePage'
+import HrLeavePage from './pages/Hr/HrLeavePage'
+import HrChatHistoryPage from './pages/Hr/HrChatHistoryPage'
 import { RequireAuth } from './pages/RootRouter'
 import EmployeePendingConfirmationPage from './pages/Employee/EmployeePendingConfirmationPage'
 
@@ -75,6 +81,30 @@ export default function App() {
           </RequireAuth>
         }
       />
+      <Route
+        path="/dashboard/attendance"
+        element={
+          <RequireAuth allowedAccountType="EMPLOYEE">
+            <EmployeeAttendancePage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/dashboard/leaves"
+        element={
+          <RequireAuth allowedAccountType="EMPLOYEE">
+            <EmployeeLeavePage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/dashboard/chat/history"
+        element={
+          <RequireAuth allowedAccountType="EMPLOYEE">
+            <EmployeeChatHistoryPage />
+          </RequireAuth>
+        }
+      />
 
       <Route
         path="/hr"
@@ -121,6 +151,30 @@ export default function App() {
         element={
           <RequireAuth allowedAccountType="HR">
             <NotificationsPage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/hr/attendance"
+        element={
+          <RequireAuth allowedAccountType="HR">
+            <HrAttendancePage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/hr/leaves"
+        element={
+          <RequireAuth allowedAccountType="HR">
+            <HrLeavePage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/hr/chat/history"
+        element={
+          <RequireAuth allowedAccountType="HR">
+            <HrChatHistoryPage />
           </RequireAuth>
         }
       />
