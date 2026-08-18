@@ -26,7 +26,7 @@ export default function SignupPage() {
     const controller = new AbortController()
     const timeoutId = window.setTimeout(() => {
       controller.abort()
-    }, 12000)
+    }, 60000)
 
     try {
       // Use fetch directly so we can apply a timeout.
@@ -153,7 +153,7 @@ export default function SignupPage() {
             disabled={loading}
             className="w-full rounded-xl bg-amber2 px-4 py-2.5 text-ink font-semibold hover:opacity-95 transition disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            {loading ? 'Creating account…' : 'Create account'}
+            {loading ? 'Creating account (may take a minute)…' : 'Create account'}
           </button>
 
         </form>
