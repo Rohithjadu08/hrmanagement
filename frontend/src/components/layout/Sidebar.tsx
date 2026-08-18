@@ -14,6 +14,8 @@ import {
 const mainNav = [
   { name: 'Dashboard', href: '/hr', icon: HomeIcon },
   { name: 'Employees', href: '/hr/employees', icon: UsersIcon },
+  { name: 'Attendance', href: '/hr/attendance', icon: ClipboardDocumentListIcon },
+  { name: 'Leave Requests', href: '/hr/leaves', icon: ClipboardDocumentCheckIcon },
   { name: 'Approvals', href: '/hr', icon: ClipboardDocumentCheckIcon },
   { name: 'Tasks', href: '/hr/tasks', icon: ClipboardDocumentListIcon },
   { name: 'AI Assistant', href: '/hr/chat', icon: ChatBubbleLeftRightIcon },

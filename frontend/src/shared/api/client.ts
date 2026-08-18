@@ -130,6 +130,27 @@ export const api = {
     const data = await res.json()
     if (!res.ok) throw new Error(data.error || 'UPLOAD_FAILED')
     return data
-  }
+  },
+
+  // --- NEW: Attendance ---
+  employeeCheckIn: () => requestJson('/api/employee/attendance/check-in', { method: 'POST' }),
+  employeeCheckOut: () => requestJson('/api/employee/attendance/check-out', { method: 'POST' }),
+  employeeGetAttendance: () => requestJson('/api/employee/attendance', { method: 'GET' }),
+  
+  hrGetAttendance: (date?: string) => requestJson(`/api/hr/attendance${date ? `?date=${date}` : ''}`, { method: 'GET' }),
+  hrGetAttendanceStats: (date?: string) => requestJson(`/api/hr/attendance/stats${date ? `?date=${date}` : ''}`, { method: 'GET' }),
+
+  // --- NEW: Leaves ---
+  employeeApplyLeave: (payload: { leave_type: string, start_date: string, end_date: string, reason: string, additional_notes?: string }) => 
+    requestJson('/api/employee/leaves', { method: 'POST', body: JSON.stringify(payload) }),
+  employeeGetLeaves: () => requestJson('/api/employee/leaves', { method: 'GET' }),
+  
+  hrGetLeaves: () => requestJson('/api/hr/leaves', { method: 'GET' }),
+  hrApproveLeave: (id: string) => requestJson(`/api/hr/leaves/${id}/approve`, { method: 'PATCH' }),
+  hrRejectLeave: (id: string, rejection_reason: string) => 
+    requestJson(`/api/hr/leaves/${id}/reject`, { method: 'PATCH', body: JSON.stringify({ rejection_reason }) }),
+
+  // --- NEW: Chat History ---
+  chatMessages: (conversationId: string) => requestJson(`/api/chat/conversations/${conversationId}/messages`, { method: 'GET' })
 }
 

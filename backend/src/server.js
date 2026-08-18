@@ -12,6 +12,8 @@ import { authRouter } from './routes/authRoutes.js'
 import { hrRouter } from './routes/hrRoutes.js'
 import { chatRoutes } from './routes/chatRoutes.js'
 import { employeeRoutes } from './routes/employeeRoutes.js'
+import attendanceRoutes from './routes/attendanceRoutes.js'
+import leaveRoutes from './routes/leaveRoutes.js'
 import { initDb } from './db/initDb.js'
 
 function getEnv(name, fallback) {
@@ -136,6 +138,8 @@ async function main() {
   app.use('/api/hr', hrRouter)
   app.use('/api/employee', employeeRoutes)
   app.use('/api/chat', chatRoutes)
+  app.use('/api', attendanceRoutes)
+  app.use('/api', leaveRoutes)
 
   // --- Serve React SPA (frontend/dist) from the same Express server ---
   // This must come AFTER API routes.

@@ -3,10 +3,15 @@ import { Squares2X2Icon, ClipboardDocumentCheckIcon, ChatBubbleLeftEllipsisIcon,
 import { api } from '../../shared/api/client'
 import { useNavigate } from 'react-router-dom'
 
+import { ClockIcon, CalendarDaysIcon, ClockIcon as HistoryIcon } from '@heroicons/react/24/outline'
+
 const navItems = [
   { name: 'Dashboard', path: '/dashboard', icon: Squares2X2Icon },
+  { name: 'Attendance', path: '/dashboard/attendance', icon: ClockIcon },
+  { name: 'Leaves', path: '/dashboard/leaves', icon: CalendarDaysIcon },
   { name: 'My Tasks', path: '/dashboard/tasks', icon: ClipboardDocumentCheckIcon },
   { name: 'AI Assistant', path: '/dashboard/chat', icon: ChatBubbleLeftEllipsisIcon },
+  { name: 'Chat History', path: '/dashboard/chat/history', icon: HistoryIcon },
 ]
 
 export default function EmployeeSidebar() {

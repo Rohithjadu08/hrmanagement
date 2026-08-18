@@ -42,7 +42,7 @@ export default function LoginPage() {
         return nav('/pending')
       }
 
-      if (res?.status === 'DECLINED') {
+      if (res?.status === 'REJECTED') {
         return nav('/declined')
       }
 

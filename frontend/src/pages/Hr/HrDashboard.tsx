@@ -274,6 +274,26 @@ export default function HrDashboard() {
                   </div>
                   <span className="text-[#94A3B8] group-hover:text-[#6366F1]">→</span>
                 </button>
+                <button onClick={() => nav('/hr/attendance')} className="w-full flex items-center justify-between p-3 rounded-xl bg-[#0B1020] border border-[#172033] hover:border-[#6366F1]/50 transition-colors text-left group">
+                  <div className="flex items-center gap-3">
+                    <span className="text-xl">🕒</span>
+                    <div>
+                      <div className="text-sm font-medium text-[#F8FAFC]">Attendance Log</div>
+                      <div className="text-xs text-[#94A3B8]">Monitor daily check-ins</div>
+                    </div>
+                  </div>
+                  <span className="text-[#94A3B8] group-hover:text-[#6366F1]">→</span>
+                </button>
+                <button onClick={() => nav('/hr/leaves')} className="w-full flex items-center justify-between p-3 rounded-xl bg-[#0B1020] border border-[#172033] hover:border-[#6366F1]/50 transition-colors text-left group">
+                  <div className="flex items-center gap-3">
+                    <span className="text-xl">📅</span>
+                    <div>
+                      <div className="text-sm font-medium text-[#F8FAFC]">Leave Requests</div>
+                      <div className="text-xs text-[#94A3B8]">Review pending leaves</div>
+                    </div>
+                  </div>
+                  <span className="text-[#94A3B8] group-hover:text-[#6366F1]">→</span>
+                </button>
               </div>
             </div>
 

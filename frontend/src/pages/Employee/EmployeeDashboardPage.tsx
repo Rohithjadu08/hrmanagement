@@ -9,6 +9,8 @@ export default function EmployeeDashboardPage() {
   const [loading, setLoading] = useState(true)
   const [userName, setUserName] = useState<string>('')
   const [stats, setStats] = useState({ todo: 0, inProgress: 0, completed: 0 })
+  const [attendanceToday, setAttendanceToday] = useState<any>(null)
+  const [leaveBalance, setLeaveBalance] = useState({ pending: 0, approved: 0 })
 
   useEffect(() => {
     let active = true
@@ -32,6 +34,23 @@ export default function EmployeeDashboardPage() {
             todo: tasks.filter((t: any) => t.status === 'todo').length,
             inProgress: tasks.filter((t: any) => t.status === 'in_progress').length,
             completed: tasks.filter((t: any) => t.status === 'completed').length,
+          })
+        }
+
+        // Fetch attendance for today
+        const attendanceData = await api.employeeGetAttendance().catch(() => [])
+        if (active && attendanceData.length > 0) {
+          const todayStr = new Date().toISOString().split('T')[0]
+          const today = attendanceData.find((a: any) => a.date === todayStr)
+          setAttendanceToday(today || null)
+        }
+
+        // Fetch leave balance
+        const leavesData = await api.employeeGetLeaves().catch(() => [])
+        if (active && leavesData.length > 0) {
+          setLeaveBalance({
+            pending: leavesData.filter((l: any) => l.status === 'Pending').length,
+            approved: leavesData.filter((l: any) => l.status === 'Approved').length,
           })
         }
       } catch {
@@ -97,6 +116,33 @@ export default function EmployeeDashboardPage() {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <Link to="/dashboard/attendance" className="relative overflow-hidden rounded-2xl border border-white/10 bg-indigo-500/10 p-6 transition-all hover:bg-indigo-500/20 group">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-indigo-300">Today's Attendance</p>
+              <p className="mt-2 text-2xl font-bold text-white">
+                {attendanceToday 
+                  ? (attendanceToday.check_out ? 'Checked Out' : 'Checked In') 
+                  : 'Not Checked In'}
+              </p>
+            </div>
+            <ArrowRightIcon className="h-5 w-5 text-indigo-400 opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100" />
+          </div>
+        </Link>
+        <Link to="/dashboard/leaves" className="relative overflow-hidden rounded-2xl border border-white/10 bg-fuchsia-500/10 p-6 transition-all hover:bg-fuchsia-500/20 group">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-fuchsia-300">Leaves</p>
+              <p className="mt-2 text-2xl font-bold text-white">
+                {leaveBalance.pending} Pending / {leaveBalance.approved} Approved
+              </p>
+            </div>
+            <ArrowRightIcon className="h-5 w-5 text-fuchsia-400 opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100" />
+          </div>
+        </Link>
       </div>
 
       {/* Quick Actions */}

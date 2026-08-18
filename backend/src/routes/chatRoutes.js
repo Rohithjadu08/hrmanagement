@@ -81,4 +81,16 @@ router.get('/conversations', async (req, res) => {
   res.json({ conversations: data })
 })
 
+router.get('/conversations/:id/messages', async (req, res) => {
+  const { data, error } = await supabaseAdmin
+    .from('messages')
+    .select('*')
+    .eq('conversation_id', req.params.id)
+    .eq('user_id', req.user.id)
+    .order('created_at', { ascending: true })
+
+  if (error) return res.status(500).json({ error: error.message })
+  res.json({ messages: data })
+})
+
 export { router as chatRoutes }

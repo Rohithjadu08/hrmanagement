@@ -7,8 +7,8 @@
 
 # TODO - Backend/Frontend completion checks
 
-- [ ] Verify /api/auth/signup works end-to-end with cookie-based JWT
-- [ ] Verify HR endpoints (/api/hr/pending-employees, /approve, /decline) work with role gating
-- [ ] Verify login gating: non-approved accounts are not issued JWT (expect 403)
-- [ ] Run smoke-test: seed -> login as employee/HR -> pending/approve flow
+- [x] Verify /api/auth/signup works end-to-end with cookie-based JWT
+- [x] Verify HR endpoints (/api/hr/pending-employees, /approve, /decline) work with role gating
+- [x] Verify login gating: non-approved accounts are not issued JWT (expect 403)
+- [x] Run smoke-test: seed -> login as employee/HR -> pending/approve flow
 
