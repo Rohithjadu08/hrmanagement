@@ -122,15 +122,26 @@ router.post('/login', async (req, res) => {
 
   const accessToken = signInData.session.access_token
 
-  // Lookup profile status with service role to enforce current behavior
+  const { accountType } = body.data
+
+  // Lookup profile status and role with service role
   const { data: userRow, error: rowErr } = await supabaseAdmin
     .from('profiles')
-    .select('approval_status')
+    .select('approval_status, role')
     .eq('email', email)
     .maybeSingle()
 
   if (rowErr) return res.status(500).json({ error: rowErr.message })
   if (!userRow) return res.status(401).json({ error: 'INVALID_CREDENTIALS' })
+
+  // Check role match if accountType is provided
+  if (accountType) {
+    const isHrAccount = accountType.toUpperCase() === 'HR'
+    const isHrRole = userRow.role?.toLowerCase() === 'hr'
+    if (isHrAccount !== isHrRole) {
+      return res.status(400).json({ error: 'ROLE_MISMATCH' })
+    }
+  }
 
   if (userRow.approval_status !== 'approved') {
     return res.status(200).json({ status: userRow.approval_status.toUpperCase() })

@@ -59,8 +59,12 @@ export default function LoginPage() {
     } catch (err: any) {
       if (err?.status === 504 || err?.message?.includes('504') || err?.message === 'Failed to fetch') {
         setStatus('Backend server is unreachable. Please ensure the backend is running.')
+      } else if (err?.error === 'INVALID_CREDENTIALS' || err?.status === 401) {
+        setStatus('Invalid email or password. Please check your credentials.')
+      } else if (err?.error === 'ROLE_MISMATCH') {
+        setStatus('Selected account type (HR / Employee) does not match this user profile.')
       } else {
-        setStatus(err?.error || 'LOGIN_FAILED')
+        setStatus(err?.error || err?.message || 'Login failed. Please check your credentials.')
       }
     } finally {
       setIsSubmitting(false)
