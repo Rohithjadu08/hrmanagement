@@ -97,11 +97,13 @@ async function main() {
   app.use(express.json())
   app.use(cookieParser())
 
+  const frontendUrl = getEnv('FRONTEND_URL', 'https://hrmanagement-tau.vercel.app')
+
   app.use(
     cors({
       origin: function (origin, callback) {
-        // Allow localhost for dev, any vercel app, or the explicit CLIENT_ORIGIN
-        if (!origin || origin.startsWith('http://localhost') || origin.includes('vercel.app') || origin === clientOrigin) {
+        // Allow explicit FRONTEND_URL, localhost for dev, any vercel app, or the explicit CLIENT_ORIGIN
+        if (!origin || origin.startsWith('http://localhost') || origin.includes('vercel.app') || origin === clientOrigin || origin === frontendUrl) {
           callback(null, true)
         } else {
           callback(new Error('Not allowed by CORS'))

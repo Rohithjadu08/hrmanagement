@@ -4,7 +4,8 @@ export type ApiError = {
   status?: number
 }
 
-export const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000'
+// Use the provided API URL for production. If not set (like in local dev), fallback to relative path which Vite proxies
+export const API_BASE = import.meta.env.VITE_API_URL || ''
 
 async function requestJson(path: string, options: RequestInit = {}) {
   const res = await fetch(`${API_BASE}${path}`, {
