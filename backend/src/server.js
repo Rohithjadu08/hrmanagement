@@ -7,7 +7,6 @@ import cors from 'cors'
 
 
 import cookieParser from 'cookie-parser'
-import './auth/jwtGlobal.js'
 import { authRouter } from './routes/authRoutes.js'
 import { hrRouter } from './routes/hrRoutes.js'
 import { chatRoutes } from './routes/chatRoutes.js'
@@ -134,12 +133,15 @@ async function main() {
     res.json({ status: 'OK', uptime: process.uptime() })
   })
 
+  // Mount these first because they contain /employee/... and /hr/... paths inside them
+  // This prevents them from falling into hrRouter or employeeRoutes and executing redundant middleware
+  app.use('/api', attendanceRoutes)
+  app.use('/api', leaveRoutes)
+  
   app.use('/api/auth', authRouter)
   app.use('/api/hr', hrRouter)
   app.use('/api/employee', employeeRoutes)
   app.use('/api/chat', chatRoutes)
-  app.use('/api', attendanceRoutes)
-  app.use('/api', leaveRoutes)
 
   // --- Serve React SPA (frontend/dist) from the same Express server ---
   // This must come AFTER API routes.

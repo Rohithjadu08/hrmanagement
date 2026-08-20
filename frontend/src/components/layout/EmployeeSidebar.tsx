@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { Squares2X2Icon, ClipboardDocumentCheckIcon, ChatBubbleLeftEllipsisIcon, ArrowRightStartOnRectangleIcon } from '@heroicons/react/24/outline'
 import { api } from '../../shared/api/client'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../shared/AuthContext'
 
 import { ClockIcon, CalendarDaysIcon, ClockIcon as HistoryIcon } from '@heroicons/react/24/outline'
 
@@ -18,13 +19,11 @@ export default function EmployeeSidebar() {
   const location = useLocation()
   const nav = useNavigate()
 
+  const { logout } = useAuth()
+
   const handleLogout = async () => {
-    try {
-      await api.logout()
-      nav('/login')
-    } catch {
-      nav('/login')
-    }
+    await logout()
+    nav('/login')
   }
 
   return (

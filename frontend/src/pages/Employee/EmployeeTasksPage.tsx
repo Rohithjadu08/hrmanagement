@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { api } from '../../shared/api/client'
 import EmployeeDashboardLayout from '../../components/layout/EmployeeDashboardLayout'
+import { CardSkeleton } from '../../components/ui/Skeleton'
 import { XMarkIcon, PaperClipIcon } from '@heroicons/react/24/outline'
 
 type Task = {
@@ -100,8 +101,10 @@ export default function EmployeeTasksPage() {
   if (loading) {
     return (
       <EmployeeDashboardLayout title="My Tasks">
-        <div className="flex h-32 items-center justify-center">
-          <div className="h-6 w-6 animate-spin rounded-full border-4 border-indigo-500 border-t-transparent"></div>
+        <div className="space-y-4">
+          <CardSkeleton />
+          <CardSkeleton />
+          <CardSkeleton />
         </div>
       </EmployeeDashboardLayout>
     )

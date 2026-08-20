@@ -25,7 +25,13 @@ async function requestJson(path: string, options: RequestInit = {}) {
       if ('error' in data) err.error = (data as any).error
     }
     err.status = res.status
-    throw Object.assign(new Error(`API_ERROR:${res.status}`), err)
+    let fallbackMessage = `API_ERROR:${res.status}`
+    if (res.status === 404) fallbackMessage = 'Resource not found (404)'
+    else if (res.status === 401) fallbackMessage = 'Unauthorized (401)'
+    else if (res.status === 403) fallbackMessage = 'Forbidden (403)'
+    else if (res.status === 500) fallbackMessage = 'Internal Server Error (500)'
+    
+    throw Object.assign(new Error(err.error || fallbackMessage), err)
   }
 
   return data
@@ -62,6 +68,7 @@ export const api = {
     }),
 
   me: () => requestJson('/api/auth/me', { method: 'GET' }),
+  logout: () => requestJson('/api/auth/logout', { method: 'POST' }),
 
   hrPendingEmployees: () => requestJson('/api/hr/pending-employees', { method: 'GET' }),
 

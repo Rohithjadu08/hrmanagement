@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { api } from '../../shared/api/client'
 import DashboardLayout from '../../components/layout/DashboardLayout'
+import { TableSkeleton } from '../../components/ui/Skeleton'
 
 export default function HrAttendancePage() {
   const [attendance, setAttendance] = useState<any[]>([])
@@ -84,7 +85,7 @@ export default function HrAttendancePage() {
           <h2 className="text-lg font-bold text-white">Attendance Records</h2>
         </div>
         {loading ? (
-          <div className="p-8 text-center text-white/50">Loading...</div>
+          <TableSkeleton rows={4} />
         ) : attendance.length === 0 ? (
           <div className="p-8 text-center text-white/50">No attendance records found for this date.</div>
         ) : (

@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { api } from '../../shared/api/client'
 import EmployeeDashboardLayout from '../../components/layout/EmployeeDashboardLayout'
 import { CheckCircleIcon, ClockIcon, ChatBubbleLeftEllipsisIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
+import { CardSkeleton } from '../../components/ui/Skeleton'
 
 export default function EmployeeDashboardPage() {
   const nav = useNavigate()
@@ -67,9 +68,17 @@ export default function EmployeeDashboardPage() {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-[#0A0A0B]">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-indigo-500 border-t-transparent"></div>
-      </div>
+      <EmployeeDashboardLayout title="Welcome back!" subtitle="Loading your workspace...">
+        <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <CardSkeleton />
+          <CardSkeleton />
+          <CardSkeleton />
+        </div>
+        <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <CardSkeleton />
+          <CardSkeleton />
+        </div>
+      </EmployeeDashboardLayout>
     )
   }
 

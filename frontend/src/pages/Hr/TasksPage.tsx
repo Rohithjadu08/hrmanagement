@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom'
 import { api } from '../../shared/api/client'
 import DashboardLayout from '../../components/layout/DashboardLayout'
 import { PlusIcon, XMarkIcon, FunnelIcon, MagnifyingGlassIcon, DocumentTextIcon, DocumentArrowDownIcon } from '@heroicons/react/24/outline'
+import { TableSkeleton } from '../../components/ui/Skeleton'
 
 type Task = {
   id: string
@@ -246,7 +247,9 @@ export default function TasksPage() {
               <tbody className="divide-y divide-[#172033]">
                 {loading ? (
                   <tr>
-                    <td colSpan={5} className="px-6 py-10 text-center text-[#94A3B8]">Loading tasks...</td>
+                    <td colSpan={5} className="p-0 border-none">
+                      <TableSkeleton rows={4} />
+                    </td>
                   </tr>
                 ) : filteredTasks.length === 0 ? (
                   <tr>

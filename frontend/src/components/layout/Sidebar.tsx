@@ -1,4 +1,5 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../shared/AuthContext'
 import {
   HomeIcon,
   UsersIcon,
@@ -25,6 +26,13 @@ const mainNav = [
 
 export default function Sidebar() {
   const location = useLocation()
+  const nav = useNavigate()
+  const { logout } = useAuth()
+
+  const handleLogout = async () => {
+    await logout()
+    nav('/login')
+  }
 
   return (
     <div className="w-64 flex flex-col bg-[#0B1020] border-r border-[#172033] h-full h-screen sticky top-0">
@@ -65,13 +73,13 @@ export default function Sidebar() {
           <Cog6ToothIcon className="w-5 h-5 text-[#94A3B8]" />
           Settings
         </Link>
-        <Link
-          to="/login"
-          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-[#EF4444] hover:bg-[#EF4444]/10 transition-colors"
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-[#EF4444] hover:bg-[#EF4444]/10 transition-colors w-full"
         >
           <ArrowRightOnRectangleIcon className="w-5 h-5 text-[#EF4444]" />
           Logout
-        </Link>
+        </button>
       </div>
     </div>
   )

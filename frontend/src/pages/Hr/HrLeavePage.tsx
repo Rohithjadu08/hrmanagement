@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { api } from '../../shared/api/client'
 import DashboardLayout from '../../components/layout/DashboardLayout'
+import { TableSkeleton } from '../../components/ui/Skeleton'
 
 export default function HrLeavePage() {
   const [leaves, setLeaves] = useState<any[]>([])
@@ -91,7 +92,7 @@ export default function HrLeavePage() {
 
       <div className="rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
         {loading ? (
-          <div className="p-8 text-center text-white/50">Loading...</div>
+          <TableSkeleton rows={4} />
         ) : leaves.length === 0 ? (
           <div className="p-8 text-center text-white/50">No leave requests found.</div>
         ) : (

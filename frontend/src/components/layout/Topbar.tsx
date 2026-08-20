@@ -1,17 +1,9 @@
 import { MagnifyingGlassIcon, BellIcon, UserCircleIcon } from '@heroicons/react/24/outline'
-import { useEffect, useState } from 'react'
-import { api } from '../../shared/api/client'
+import { useAuth } from '../../shared/AuthContext'
 
 export default function Topbar() {
-  const [userName, setUserName] = useState('HR Admin')
-
-  useEffect(() => {
-    api.me().then((res) => {
-      if (res?.user?.name) {
-        setUserName(res.user.name)
-      }
-    }).catch(() => {})
-  }, [])
+  const { user } = useAuth()
+  const userName = user?.name || 'HR Admin'
 
   return (
     <div className="h-16 bg-[#0B1020] border-b border-[#172033] flex items-center justify-between px-6 sticky top-0 z-10">

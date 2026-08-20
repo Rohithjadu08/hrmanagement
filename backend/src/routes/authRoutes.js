@@ -172,4 +172,14 @@ router.get('/me', async (req, res) => {
   }
 })
 
+router.post('/logout', (req, res) => {
+  res.clearCookie('token', {
+    httpOnly: true,
+    sameSite: 'none',
+    secure: true,
+    path: '/'
+  })
+  return res.json({ ok: true })
+})
+
 export { router as authRouter }

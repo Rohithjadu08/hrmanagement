@@ -9,6 +9,18 @@ export async function applyLeave(employeeId, data) {
   const diffTime = Math.abs(end - start);
   const total_days = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
 
+  // Prevent double-submit / overlapping leaves
+  const { data: existingLeaves } = await supabaseAdmin
+    .from('leave_requests')
+    .select('id')
+    .eq('employee_id', employeeId)
+    .eq('start_date', start_date)
+    .eq('end_date', end_date);
+
+  if (existingLeaves && existingLeaves.length > 0) {
+    throw new Error('A leave request for these exact dates already exists.');
+  }
+
   const { data: request, error } = await supabaseAdmin
     .from('leave_requests')
     .insert({

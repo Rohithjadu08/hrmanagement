@@ -1,30 +1,42 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
+import { lazy, Suspense } from 'react'
+import { RequireAuth } from './pages/RootRouter'
+
+// Auth & Public
 import LandingPage from './pages/LandingPage/LandingPage'
 import SignupPage from './pages/Auth/SignupPage'
 import LoginPage from './pages/Auth/LoginPage'
-import EmployeePendingPage from './pages/Employee/EmployeePendingPage'
-import EmployeeDashboardPage from './pages/Employee/EmployeeDashboardPage'
-import EmployeeTasksPage from './pages/Employee/EmployeeTasksPage'
-import EmployeeAiAssistantPage from './pages/Employee/EmployeeAiAssistantPage'
-import EmployeeDeclinedPage from './pages/Employee/EmployeeDeclinedPage'
-import EmployeeAttendancePage from './pages/Employee/EmployeeAttendancePage'
-import EmployeeLeavePage from './pages/Employee/EmployeeLeavePage'
-import EmployeeChatHistoryPage from './pages/Employee/EmployeeChatHistoryPage'
-import HrDashboard from './pages/Hr/HrDashboard'
-import EmployeesPage from './pages/Hr/EmployeesPage'
-import TasksPage from './pages/Hr/TasksPage'
-import AiAssistantPage from './pages/Hr/AiAssistantPage'
-import KnowledgeBasePage from './pages/Hr/KnowledgeBasePage'
-import NotificationsPage from './pages/Hr/NotificationsPage'
-import HrAttendancePage from './pages/Hr/HrAttendancePage'
-import HrLeavePage from './pages/Hr/HrLeavePage'
-import HrChatHistoryPage from './pages/Hr/HrChatHistoryPage'
-import { RequireAuth } from './pages/RootRouter'
-import EmployeePendingConfirmationPage from './pages/Employee/EmployeePendingConfirmationPage'
+
+// Lazy loaded Employee pages
+const EmployeePendingPage = lazy(() => import('./pages/Employee/EmployeePendingPage'))
+const EmployeeDashboardPage = lazy(() => import('./pages/Employee/EmployeeDashboardPage'))
+const EmployeeTasksPage = lazy(() => import('./pages/Employee/EmployeeTasksPage'))
+const EmployeeAiAssistantPage = lazy(() => import('./pages/Employee/EmployeeAiAssistantPage'))
+const EmployeeDeclinedPage = lazy(() => import('./pages/Employee/EmployeeDeclinedPage'))
+const EmployeeAttendancePage = lazy(() => import('./pages/Employee/EmployeeAttendancePage'))
+const EmployeeLeavePage = lazy(() => import('./pages/Employee/EmployeeLeavePage'))
+const EmployeeChatHistoryPage = lazy(() => import('./pages/Employee/EmployeeChatHistoryPage'))
+const EmployeePendingConfirmationPage = lazy(() => import('./pages/Employee/EmployeePendingConfirmationPage'))
+
+// Lazy loaded HR pages
+const HrDashboard = lazy(() => import('./pages/Hr/HrDashboard'))
+const EmployeesPage = lazy(() => import('./pages/Hr/EmployeesPage'))
+const TasksPage = lazy(() => import('./pages/Hr/TasksPage'))
+const AiAssistantPage = lazy(() => import('./pages/Hr/AiAssistantPage'))
+const KnowledgeBasePage = lazy(() => import('./pages/Hr/KnowledgeBasePage'))
+const NotificationsPage = lazy(() => import('./pages/Hr/NotificationsPage'))
+const HrAttendancePage = lazy(() => import('./pages/Hr/HrAttendancePage'))
+const HrLeavePage = lazy(() => import('./pages/Hr/HrLeavePage'))
+const HrChatHistoryPage = lazy(() => import('./pages/Hr/HrChatHistoryPage'))
 
 export default function App() {
   return (
-    <Routes>
+    <Suspense fallback={
+      <div className="flex h-screen items-center justify-center bg-[#0A0A0B]">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-indigo-500 border-t-transparent"></div>
+      </div>
+    }>
+      <Routes>
       <Route path="/" element={<LoginPage />} />
 
       <Route path="/home" element={<LandingPage />} />
@@ -182,6 +194,7 @@ export default function App() {
       <Route path="*" element={<Navigate to="/login" replace />} />
 
     </Routes>
+    </Suspense>
   )
 }
 

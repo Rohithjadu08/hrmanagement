@@ -9,6 +9,7 @@ import {
   BookOpenIcon,
   ChatBubbleLeftRightIcon
 } from '@heroicons/react/24/outline'
+import { CardSkeleton } from '../../components/ui/Skeleton'
 
 type PendingEmployee = {
   id: string
@@ -90,12 +91,21 @@ export default function HrDashboard() {
   if (loading) {
     return (
       <DashboardLayout>
-        <div className="p-8 space-y-6 animate-pulse">
-          <div className="h-24 bg-[#111827] rounded-2xl"></div>
+        <div className="p-8 space-y-6">
+          <CardSkeleton />
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {[1, 2, 3, 4].map(i => <div key={i} className="h-32 bg-[#111827] rounded-2xl"></div>)}
+            {[1, 2, 3, 4].map(i => <CardSkeleton key={i} />)}
           </div>
-          <div className="h-64 bg-[#111827] rounded-2xl"></div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2 space-y-8">
+              <CardSkeleton />
+              <CardSkeleton />
+            </div>
+            <div className="space-y-8">
+              <CardSkeleton />
+              <CardSkeleton />
+            </div>
+          </div>
         </div>
       </DashboardLayout>
     )

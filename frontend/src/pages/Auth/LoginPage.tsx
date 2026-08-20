@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { api } from '../../shared/api/client'
+import { useAuth } from '../../shared/AuthContext'
 
 type AccountType = 'EMPLOYEE' | 'HR'
 
@@ -12,12 +13,14 @@ type LoginForm = {
 
 export default function LoginPage() {
   const nav = useNavigate()
+  const { refreshUser } = useAuth()
   const [form, setForm] = useState<LoginForm>({
     email: '',
     password: '',
     accountType: 'EMPLOYEE'
   })
   const [status, setStatus] = useState<string>('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
     setStatus('')
@@ -26,12 +29,17 @@ export default function LoginPage() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault()
     setStatus('')
+    setIsSubmitting(true)
     try {
       const res = await api.login({
         email: form.email,
         password: form.password,
         accountType: form.accountType
       })
+
+      if (res?.status === 'APPROVED' || res?.status === 'PENDING' || res?.status === 'REJECTED') {
+        await refreshUser()
+      }
 
       if (res?.status === 'APPROVED') {
         if (form.accountType === 'HR') return nav('/hr')
@@ -49,11 +57,13 @@ export default function LoginPage() {
       // default
       nav('/')
     } catch (err: any) {
-      if (err?.status === 504 || err?.message?.includes('504')) {
+      if (err?.status === 504 || err?.message?.includes('504') || err?.message === 'Failed to fetch') {
         setStatus('Backend server is unreachable. Please ensure the backend is running.')
       } else {
         setStatus(err?.error || 'LOGIN_FAILED')
       }
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -105,9 +115,10 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            className="w-full rounded-xl bg-amber2 px-4 py-2.5 text-ink font-semibold hover:opacity-95 transition"
+            disabled={isSubmitting}
+            className="w-full rounded-xl bg-amber2 px-4 py-2.5 text-ink font-semibold hover:opacity-95 transition disabled:opacity-50"
           >
-            Login
+            {isSubmitting ? 'Logging in...' : 'Login'}
           </button>
         </form>
 

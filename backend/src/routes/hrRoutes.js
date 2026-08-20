@@ -224,8 +224,21 @@ router.get('/tasks', requireHR, async (req, res) => {
   res.json({ tasks: tasksWithAssignee })
 })
 
+const createTaskSchema = z.object({
+  title: z.string().min(1),
+  description: z.string().min(1),
+  assignee_id: z.string().min(1),
+  priority: z.enum(['low', 'medium', 'high', 'urgent']),
+  due_date: z.string().min(1),
+  category: z.string().optional(),
+  notes: z.string().optional()
+})
+
 router.post('/tasks', requireHR, async (req, res) => {
-  const { title, description, assignee_id, priority, due_date, category, notes } = req.body
+  const body = createTaskSchema.safeParse(req.body)
+  if (!body.success) return res.status(400).json({ error: 'INVALID_PAYLOAD' })
+  
+  const { title, description, assignee_id, priority, due_date, category, notes } = body.data
   const { data, error } = await supabaseAdmin.from('tasks').insert({
     title, 
     description, 

@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import { api } from '../../shared/api/client'
 import EmployeeDashboardLayout from '../../components/layout/EmployeeDashboardLayout'
+import { TableSkeleton } from '../../components/ui/Skeleton'
 
 export default function EmployeeAttendancePage() {
   const [attendance, setAttendance] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [actionLoading, setActionLoading] = useState(false)
 
   const fetchAttendance = async () => {
     try {
@@ -24,21 +26,27 @@ export default function EmployeeAttendancePage() {
 
   const handleCheckIn = async () => {
     try {
+      setActionLoading(true)
       setError('')
       await api.employeeCheckIn()
       await fetchAttendance()
     } catch (err: any) {
       setError(err.message || 'Failed to check in')
+    } finally {
+      setActionLoading(false)
     }
   }
 
   const handleCheckOut = async () => {
     try {
+      setActionLoading(true)
       setError('')
       await api.employeeCheckOut()
       await fetchAttendance()
     } catch (err: any) {
       setError(err.message || 'Failed to check out')
+    } finally {
+      setActionLoading(false)
     }
   }
 
@@ -94,24 +102,24 @@ export default function EmployeeAttendancePage() {
         <div className="flex gap-4">
           <button
             onClick={handleCheckIn}
-            disabled={!!todayRecord}
+            disabled={!!todayRecord || actionLoading}
             className="rounded-xl bg-indigo-500 px-6 py-2.5 text-sm font-medium text-white transition-all hover:bg-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Check In
+            {actionLoading && !todayRecord ? 'Processing...' : 'Check In'}
           </button>
           <button
             onClick={handleCheckOut}
-            disabled={!todayRecord || !!todayRecord.check_out}
+            disabled={!todayRecord || !!todayRecord.check_out || actionLoading}
             className="rounded-xl border border-white/10 bg-transparent px-6 py-2.5 text-sm font-medium text-white transition-all hover:bg-white/5 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Check Out
+            {actionLoading && todayRecord && !todayRecord.check_out ? 'Processing...' : 'Check Out'}
           </button>
         </div>
       </div>
 
       <div className="rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
         {loading ? (
-          <div className="p-8 text-center text-white/50">Loading...</div>
+          <TableSkeleton rows={4} />
         ) : attendance.length === 0 ? (
           <div className="p-8 text-center text-white/50">No attendance records found.</div>
         ) : (
