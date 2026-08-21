@@ -159,6 +159,32 @@ export const api = {
     requestJson(`/api/hr/leaves/${id}/reject`, { method: 'PATCH', body: JSON.stringify({ rejection_reason }) }),
 
   // --- NEW: Chat History ---
-  chatMessages: (conversationId: string) => requestJson(`/api/chat/conversations/${conversationId}/messages`, { method: 'GET' })
+  chatMessages: (conversationId: string) => requestJson(`/api/chat/conversations/${conversationId}/messages`, { method: 'GET' }),
+
+  // --- NEW: Settings ---
+  settingsHrOrgGet: () => requestJson('/api/settings/hr/organization', { method: 'GET' }),
+  settingsHrOrgUpdate: (payload: any) => requestJson('/api/settings/hr/organization', { method: 'PATCH', body: JSON.stringify(payload) }),
+  
+  settingsHrEmployeesGet: () => requestJson('/api/settings/hr/employees', { method: 'GET' }),
+  settingsHrEmployeesUpdate: (payload: any) => requestJson('/api/settings/hr/employees', { method: 'PATCH', body: JSON.stringify(payload) }),
+  
+  settingsHrLeaveTypesGet: () => requestJson('/api/settings/hr/leaves', { method: 'GET' }),
+  settingsHrLeaveTypesCreate: (payload: any) => requestJson('/api/settings/hr/leaves', { method: 'POST', body: JSON.stringify(payload) }),
+  settingsHrLeaveTypesUpdate: (id: string, payload: any) => requestJson(`/api/settings/hr/leaves/${id}`, { method: 'PATCH', body: JSON.stringify(payload) }),
+  
+  settingsHrTasksGet: () => requestJson('/api/settings/hr/tasks', { method: 'GET' }),
+  settingsHrTasksUpdate: (payload: any) => requestJson('/api/settings/hr/tasks', { method: 'PATCH', body: JSON.stringify(payload) }),
+  
+  settingsHrNotificationsGet: () => requestJson('/api/settings/hr/notifications', { method: 'GET' }),
+  settingsHrNotificationsUpdate: (payload: any) => requestJson('/api/settings/hr/notifications', { method: 'PATCH', body: JSON.stringify(payload) }),
+  
+  settingsHrSystemGet: () => requestJson('/api/settings/hr/system', { method: 'GET' }),
+  settingsHrAuditLogsGet: () => requestJson('/api/settings/hr/audit-logs', { method: 'GET' }),
+
+  settingsEmployeePreferencesGet: () => requestJson('/api/settings/employee/preferences', { method: 'GET' }),
+  settingsEmployeePreferencesUpdate: (payload: any) => requestJson('/api/settings/employee/preferences', { method: 'PATCH', body: JSON.stringify(payload) }),
+  
+  settingsEmployeeProfileUpdate: (payload: any) => requestJson('/api/settings/employee/profile', { method: 'PATCH', body: JSON.stringify(payload) }),
+  settingsEmployeeClearChat: () => requestJson('/api/settings/employee/ai/clear-history', { method: 'POST' })
 }
 

@@ -17,10 +17,21 @@ export default function EmployeeLeavePage() {
   })
   const [formLoading, setFormLoading] = useState(false)
 
+  const [leaveTypes, setLeaveTypes] = useState<any[]>([])
+
   const fetchLeaves = async () => {
     try {
       const data = await api.employeeGetLeaves()
       setLeaves(data || [])
+      
+      const types = await api.settingsHrLeaveTypesGet()
+      // Only show active leave types
+      const activeTypes = (types || []).filter((t: any) => t.is_active)
+      setLeaveTypes(activeTypes)
+      
+      if (activeTypes.length > 0 && !leaveForm.leave_type) {
+        setLeaveForm(prev => ({ ...prev, leave_type: activeTypes[0].name }))
+      }
     } catch (err: any) {
       setError(err.message || 'Failed to fetch leaves')
     } finally {
@@ -138,9 +149,10 @@ export default function EmployeeLeavePage() {
                   className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-white placeholder-white/30 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
                   required
                 >
-                  <option value="Annual">Annual Leave</option>
-                  <option value="Sick">Sick Leave</option>
-                  <option value="Unpaid">Unpaid Leave</option>
+                  {leaveTypes.map(t => (
+                    <option key={t.id} value={t.name}>{t.name}</option>
+                  ))}
+                  {leaveTypes.length === 0 && <option value="Annual">Annual Leave</option>}
                 </select>
               </div>
               <div className="grid grid-cols-2 gap-4">

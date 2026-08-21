@@ -13,6 +13,7 @@ import { chatRoutes } from './routes/chatRoutes.js'
 import { employeeRoutes } from './routes/employeeRoutes.js'
 import attendanceRoutes from './routes/attendanceRoutes.js'
 import leaveRoutes from './routes/leaveRoutes.js'
+import { settingsRouter } from './routes/settingsRoutes.js'
 import { initDb } from './db/initDb.js'
 
 function getEnv(name, fallback) {
@@ -137,6 +138,7 @@ async function main() {
 
   // Mount these first because they contain /employee/... and /hr/... paths inside them
   // This prevents them from falling into hrRouter or employeeRoutes and executing redundant middleware
+  app.use('/api/settings', settingsRouter)
   app.use('/api', attendanceRoutes)
   app.use('/api', leaveRoutes)
   

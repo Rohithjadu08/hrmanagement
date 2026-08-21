@@ -17,6 +17,7 @@ const EmployeeAttendancePage = lazy(() => import('./pages/Employee/EmployeeAtten
 const EmployeeLeavePage = lazy(() => import('./pages/Employee/EmployeeLeavePage'))
 const EmployeeChatHistoryPage = lazy(() => import('./pages/Employee/EmployeeChatHistoryPage'))
 const EmployeePendingConfirmationPage = lazy(() => import('./pages/Employee/EmployeePendingConfirmationPage'))
+const EmployeeAppearanceSettings = lazy(() => import('./pages/Employee/Settings/EmployeeAppearanceSettings'))
 
 // Lazy loaded HR pages
 const HrDashboard = lazy(() => import('./pages/Hr/HrDashboard'))
@@ -28,6 +29,12 @@ const NotificationsPage = lazy(() => import('./pages/Hr/NotificationsPage'))
 const HrAttendancePage = lazy(() => import('./pages/Hr/HrAttendancePage'))
 const HrLeavePage = lazy(() => import('./pages/Hr/HrLeavePage'))
 const HrChatHistoryPage = lazy(() => import('./pages/Hr/HrChatHistoryPage'))
+
+// Settings pages
+const HrSettingsOverview = lazy(() => import('./pages/Hr/Settings/HrSettingsOverview'))
+const HrOrgSettings = lazy(() => import('./pages/Hr/Settings/HrOrgSettings'))
+const HrLeaveSettings = lazy(() => import('./pages/Hr/Settings/HrLeaveSettings'))
+const HrSystemSettings = lazy(() => import('./pages/Hr/Settings/HrSystemSettings'))
 
 export default function App() {
   return (
@@ -117,6 +124,22 @@ export default function App() {
           </RequireAuth>
         }
       />
+      <Route
+        path="/dashboard/settings"
+        element={
+          <RequireAuth allowedAccountType="EMPLOYEE">
+            <Navigate to="/dashboard/settings/appearance" replace />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/dashboard/settings/appearance"
+        element={
+          <RequireAuth allowedAccountType="EMPLOYEE">
+            <EmployeeAppearanceSettings />
+          </RequireAuth>
+        }
+      />
 
       <Route
         path="/hr"
@@ -187,6 +210,39 @@ export default function App() {
         element={
           <RequireAuth allowedAccountType="HR">
             <HrChatHistoryPage />
+          </RequireAuth>
+        }
+      />
+
+      <Route
+        path="/hr/settings"
+        element={
+          <RequireAuth allowedAccountType="HR">
+            <HrSettingsOverview />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/hr/settings/organization"
+        element={
+          <RequireAuth allowedAccountType="HR">
+            <HrOrgSettings />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/hr/settings/leaves"
+        element={
+          <RequireAuth allowedAccountType="HR">
+            <HrLeaveSettings />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/hr/settings/system"
+        element={
+          <RequireAuth allowedAccountType="HR">
+            <HrSystemSettings />
           </RequireAuth>
         }
       />
