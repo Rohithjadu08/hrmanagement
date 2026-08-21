@@ -66,13 +66,13 @@ export default function Sidebar() {
 
       {/* Footer Nav */}
       <div className="p-3 border-t border-[#172033] flex flex-col gap-1">
-        <Link
-          to="#"
-          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-[#94A3B8] hover:bg-[#111827] hover:text-[#F8FAFC] transition-colors"
+        <button
+          onClick={() => alert('Settings module coming soon.')}
+          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-[#94A3B8] hover:bg-[#111827] hover:text-[#F8FAFC] transition-colors w-full text-left"
         >
           <Cog6ToothIcon className="w-5 h-5 text-[#94A3B8]" />
           Settings
-        </Link>
+        </button>
         <button
           onClick={handleLogout}
           className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-[#EF4444] hover:bg-[#EF4444]/10 transition-colors w-full"

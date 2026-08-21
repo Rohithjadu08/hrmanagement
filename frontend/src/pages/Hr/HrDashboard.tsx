@@ -118,7 +118,7 @@ export default function HrDashboard() {
         {/* HERO SECTION */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-[#111827] to-[#172033] p-6 rounded-2xl border border-[#172033]">
           <div>
-            <h1 className="text-2xl font-bold text-[#F8FAFC]">HR COMMAND CENTER</h1>
+            <h1 className="text-2xl font-bold text-[#F8FAFC]">HR ADMIN PANEL</h1>
             <p className="mt-1 text-sm text-[#94A3B8]">Monitor your workforce, tasks, approvals, and AI knowledge system from one place.</p>
           </div>
           <button onClick={() => nav('/hr/chat')} className="flex items-center justify-center gap-2 bg-[#6366F1] hover:bg-[#4F46E5] text-white px-5 py-2.5 rounded-xl font-medium transition-colors shadow-lg shadow-[#6366F1]/20 whitespace-nowrap">

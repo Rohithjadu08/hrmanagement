@@ -154,10 +154,10 @@ router.post('/login', async (req, res) => {
 router.get('/me', async (req, res) => {
   try {
     const accessToken = req.cookies?.token
-    if (!accessToken) return res.status(401).json({ error: 'UNAUTHENTICATED' })
+    if (!accessToken) return res.json({ user: null })
 
     const { data: authData, error: authErr } = await supabaseAdmin.auth.getUser(accessToken)
-    if (authErr || !authData?.user?.id) return res.status(401).json({ error: 'UNAUTHENTICATED' })
+    if (authErr || !authData?.user?.id) return res.json({ user: null })
 
     const { data: userRow, error: rowErr } = await supabaseAdmin
       .from('profiles')
@@ -166,7 +166,7 @@ router.get('/me', async (req, res) => {
       .maybeSingle()
 
     if (rowErr) return res.status(500).json({ error: rowErr.message })
-    if (!userRow) return res.status(401).json({ error: 'UNAUTHENTICATED' })
+    if (!userRow) return res.json({ user: null })
 
     // Keep response shape expected by frontend (snake_case -> camelCase)
     const user = {
@@ -179,7 +179,7 @@ router.get('/me', async (req, res) => {
 
     return res.json({ user })
   } catch {
-    return res.status(401).json({ error: 'UNAUTHENTICATED' })
+    return res.json({ user: null })
   }
 })
 
