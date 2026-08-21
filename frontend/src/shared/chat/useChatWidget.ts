@@ -50,19 +50,34 @@ export function useChatWidget() {
     setMessages((prev) => [...prev, userMsg])
     setIsTyping(true)
 
-    // Mocked response scaffolding (replace with backend /api/chat later)
-    const responseText = getMockBotResponse({ role, stage, question: trimmed })
+    try {
+      const res = await fetch('/api/chat/message', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: trimmed })
+      })
+      if (!res.ok) throw new Error('Failed to send message')
+      const data = await res.json()
 
-    await new Promise((r) => setTimeout(r, 650))
-
-    const botMsg: ChatMessage = {
-      id: uid(),
-      sender: 'bot',
-      text: responseText,
-      createdAt: Date.now()
+      const botMsg: ChatMessage = {
+        id: uid(),
+        sender: 'bot',
+        text: data.answer || 'Sorry, I could not process your request.',
+        createdAt: Date.now()
+      }
+      setMessages((prev) => [...prev, botMsg])
+    } catch (err) {
+      console.error('Chat error:', err)
+      const errorMsg: ChatMessage = {
+        id: uid(),
+        sender: 'bot',
+        text: 'Sorry, I encountered an error connecting to the server.',
+        createdAt: Date.now()
+      }
+      setMessages((prev) => [...prev, errorMsg])
+    } finally {
+      setIsTyping(false)
     }
-    setIsTyping(false)
-    setMessages((prev) => [...prev, botMsg])
   }
 
   return {
