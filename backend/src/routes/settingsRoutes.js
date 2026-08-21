@@ -1,6 +1,7 @@
 import express from 'express'
 import { supabaseAdmin } from '../db/initDb.js'
-import { requireSupabaseAuth, requireHR } from '../middleware/auth.js'
+import { requireSupabaseAuth } from '../auth/supabaseAuth.js'
+import { requireHR } from '../auth/requireHR.js'
 
 const router = express.Router()
 
